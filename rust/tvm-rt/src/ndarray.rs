@@ -299,6 +299,15 @@ impl NDArray {
         ));
         NDArray::Borrowed { handle: handle }
     }
+    pub fn len(&self) -> usize {
+        if let Some(s) =self.shape(){
+            let len: i64 = s.iter().map(|i| *i as i64).product();
+            usize::try_from(len).unwrap_or_else(|_| panic!("bad len: {}", len))
+        }else{
+            0
+        }
+       
+    }
 }
 
 macro_rules! impl_from_ndarray_rustndarray {
